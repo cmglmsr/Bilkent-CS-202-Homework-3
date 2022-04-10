@@ -1,6 +1,5 @@
 #include "computer.h"
 #include "heap.h"
-#include "request.h"
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -17,7 +16,7 @@ using namespace std;
 
 
 // simulator method computes the average waiting time for a given number of computers and a list of given requests.
-void simulator( string fileName, int numberOfComputers, int& avgWaitingTime) {
+void simulator( string fileName, int numberOfComputers, double& avgWaitingTime) {
     
     ifstream f;
     f.open((fileName).c_str());
@@ -85,8 +84,35 @@ void simulator( string fileName, int numberOfComputers, int& avgWaitingTime) {
     delete[] requests;
 }
 
+int optimalNumber( string filename, double averageTime) {
+    double testDuration;
+    for( int i = 1; i < 999; i++) {
+        simulator( filename, i, testDuration);
+        if( testDuration <= averageTime) {
+            return i;
+        }
+    }
+    return -1;
+}
 
+void initialPrint( int numberOfComputers) {
+    cout << "Minimum number of computers required: " << numberOfComputers << endl << endl;
+    cout << "Simulation with " << numberOfComputers << " computers:" << endl << endl;
+}
+
+int stringToInt(const char *s)
+{
+    int i;
+    i = 0;
+    while(*s >= '0' && *s <= '9')
+    {
+        i = i * 10 + (*s - '0');
+        s++;
+    }
+    return i;
+}
 
 int main( int arg, char* args[]) {
-
+    double avgwaitingtime = stringToInt(args[2]);
+	optimalNumber(args[1], avgwaitingtime);
 }
