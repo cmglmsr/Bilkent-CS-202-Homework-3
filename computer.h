@@ -10,7 +10,9 @@
 struct computer {
 
     public:
-    int compNum;
+    computer();
+    computer( int number);
+    int compNumber;
     bool isWorking;
     int processingTime;
 

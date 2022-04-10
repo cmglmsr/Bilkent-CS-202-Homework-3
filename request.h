@@ -9,13 +9,10 @@
 * Description: Heap class header file
 */
 class request {
-
     public:
     request();
     request( int tid, int tpriority, int tsentTime, int tprocessTime);
     int getKey();
-
-    private:
     int id;
     int priority;
     int sentTime;

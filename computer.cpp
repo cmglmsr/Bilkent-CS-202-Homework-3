@@ -1,3 +1,4 @@
+#include "computer.h"
 /*
 * Title: computer.cpp
 * Author: Mustafa Cem Gülümser
@@ -6,3 +7,9 @@
 * Assignment: 3
 * Description: Computer class source code file
 */
+
+computer::computer( int number) {
+    compNumber = number;
+    isWorking = false;
+    processingTime = 0;
+}

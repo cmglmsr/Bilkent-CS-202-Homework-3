@@ -17,7 +17,7 @@ bool Heap::heapIsEmpty() const {
 	return (size == 0);
 }
 
-void Heap::heapInsert( const HeapItemType&newItem) {
+void Heap::heapInsert( const request& newItem) {
 
 	if (size >= MAX_HEAP)
 		cout << ("HeapException: Heap full") << endl;
@@ -29,7 +29,7 @@ void Heap::heapInsert( const HeapItemType&newItem) {
 	int place = size;
 	int parent = (place - 1)/2;
 	while ( (place > 0) && (items[place].getKey() > items[parent].getKey()) ) {
-		HeapItemType temp = items[parent];
+		request temp = items[parent];
 		items[parent] = items[place];
 		items[place] = temp;
 
@@ -39,7 +39,7 @@ void Heap::heapInsert( const HeapItemType&newItem) {
  	++size;
 }
 
-void Heap::heapDelete(HeapItemType&rootItem) {
+void Heap::heapDelete(request& rootItem) {
 	if (heapIsEmpty())
 		cout << "HeapException: Heap empty" << endl;
 	else {
@@ -61,7 +61,7 @@ void Heap::heapRebuild(int root) {
 
 		// If root’s item is smaller than larger child, swap values
 		if ( items[root].getKey() < items[child].getKey() ) {
-			HeapItemType temp = items[root];
+			request temp = items[root];
 			items[root] = items[child];
 			items[child] = temp;
 
