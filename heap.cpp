@@ -28,13 +28,26 @@ void Heap::heapInsert( const request& newItem) {
 	// Trickle new item up to its proper position
 	int place = size;
 	int parent = (place - 1)/2;
-	while ( (place > 0) && (items[place].getKey() > items[parent].getKey()) ) {
-		request temp = items[parent];
-		items[parent] = items[place];
-		items[place] = temp;
+	while ( (place > 0) && (items[place].getKey() >= items[parent].getKey()) ) {
+        if( items[place].getKey() == items[parent].getKey()) {
+            if( items[place].sentTime < items[parent].sentTime) {
+                request temp = items[parent];
+                items[parent] = items[place];
+                items[place] = temp;
+                place = parent;
+                parent = (place - 1)/2;
+            }
+            else
+                break;
+        }
+        else {
+            request temp = items[parent];
+            items[parent] = items[place];
+            items[place] = temp;
 
-		place = parent;
-		parent = (place - 1)/2;
+            place = parent;
+            parent = (place - 1)/2;
+        }
 	}
  	++size;
 }
