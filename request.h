@@ -10,4 +10,6 @@
 */
 class request {
 
+    int getKey();
+
 };
