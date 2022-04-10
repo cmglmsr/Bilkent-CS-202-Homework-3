@@ -8,6 +8,7 @@
 * Assignment: 3
 * Description: Request class header file. Requests have priorities as key values
 */
+request::request() {}
 
 request::request( int tid, int tpriority, int tsentTime, int tprocessTime) {
     id = tid; priority = tpriority; sentTime = tsentTime; processTime = tprocessTime;

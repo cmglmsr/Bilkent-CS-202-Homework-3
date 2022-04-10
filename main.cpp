@@ -37,6 +37,7 @@ void simulator( string fileName, int numberOfComputers, double& avgWaitingTime) 
         f >> id; f >> priority; f >> sentTime; f >> processTime;
         request newRequest( id, priority, sentTime, processTime);
         requests[currentRequest] = newRequest;
+        currentRequest++;
     }
     
     computer* computers = new computer[numberOfComputers];
