@@ -195,9 +195,9 @@ int main( int arg, char* args[]) {
     Heap h;
     request* r1 = new request( 1, 10, 3, 5);
     request* r2 = new request( 2, 20, 4, 5);
-    request* r3 = new request( 3, 20, 2, 5);
-    request* r4 = new request( 4, 30, 5, 5);
-    request* r5 = new request( 5, 40, 7, 5);
+    request* r3 = new request( 3, 30, 2, 5);
+    request* r4 = new request( 4, 40, 5, 5);
+    request* r5 = new request( 5, 50, 7, 5);
 
     h.heapInsert(*r1);
     h.heapInsert(*r2);
