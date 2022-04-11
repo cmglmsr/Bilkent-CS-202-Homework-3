@@ -69,8 +69,11 @@ void Heap::heapRebuild(int root) {
 		int rightChild = child + 1; 	// index of a right child, if any
 		// If root has right child, find larger child
 		if ( (rightChild < size) &&
-		     (items[rightChild].getKey() >items[child].getKey()) )
+		     (items[rightChild].getKey() > items[child].getKey()) )
 			child = rightChild; 	// index of larger child
+		else if( (rightChild < size) && (items[rightChild].getKey() == items[child].getKey()) 
+			& (items[rightChild].sentTime < items[child].sentTime))
+			child = rightChild;
 
 		// If root’s item is smaller than larger child, swap values
 		if ( items[root].getKey() < items[child].getKey() ) {
