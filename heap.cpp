@@ -76,7 +76,7 @@ void Heap::heapRebuild(int root) {
 			child = rightChild;
 
 		// If root’s item is smaller than larger child, swap values
-		if ( items[root].getKey() < items[child].getKey() ) {
+		if ( items[root].getKey() < items[child].getKey() || ( (items[root].getKey() == items[child].getKey()) & (items[root].sentTime > items[child].sentTime))) {
 			request temp = items[root];
 			items[root] = items[child];
 			items[child] = temp;

@@ -132,7 +132,7 @@ void show(string fileName, int numberOfComputers) {
     }
     while( !completed) {
         for( int i = 0; i < numberOfComputers; i++) {
-            if( computers[i].processingTime > 0) {  
+            if( computers[i].isWorking) {  
                 computers[i].processingTime--;
             }
         }
