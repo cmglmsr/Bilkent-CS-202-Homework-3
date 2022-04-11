@@ -14,6 +14,13 @@ using namespace std;
 * Description: Computer class source code file
 */
 
+/*
+TO DO:
+* Seperate the initialization of the file to another method
+* Change toString method or whatevs it is
+* Change if clauses, computer updates can be done in a single loop
+* Add comments
+*/
 
 // simulator method computes the average waiting time for a given number of computers and a list of given requests.
 void simulator( string fileName, int numberOfComputers, double& avgWaitingTime) {
