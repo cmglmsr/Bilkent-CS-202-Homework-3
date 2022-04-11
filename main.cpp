@@ -150,7 +150,7 @@ void show(string fileName, int numberOfComputers) {
                 waitTime = (ms - heap.items[0].sentTime);
                 average += (double) waitTime;
                 // BE CAREFUL MIGHT NOT WORK!!!!!!!!!!!!
-                cout << "Computer " << computers[i].compNumber << " takes request " << heap.items[0].id << " at ms " << ms << " (wait :" << waitTime << " ms)" << endl;
+                cout << "Computer " << computers[i].compNumber << " takes request " << heap.items[0].id << " at ms " << ms << " (wait: " << waitTime << " ms)" << endl;
                 heap.heapDelete(heap.items[0]);
                 done++;
             }
@@ -190,21 +190,6 @@ int stringToInt(const char *s) // BE CAREFUL MIGHT NOT WORK!!!!!!!!!!!!
 }
 
 int main( int arg, char* args[]) {
-    //double avgwaitingtime = stringToInt(args[2]);
-	//optimalNumber(args[1], avgwaitingtime);
-    Heap h;
-    request* r1 = new request( 1, 10, 3, 5);
-    request* r2 = new request( 2, 20, 4, 5);
-    request* r3 = new request( 3, 20, 2, 5);
-    request* r4 = new request( 4, 30, 5, 5);
-    request* r5 = new request( 5, 40, 7, 5);
-
-    h.heapInsert(*r1);
-    h.heapInsert(*r2);
-    h.heapInsert(*r3);
-    h.heapInsert(*r4);
-    h.heapInsert(*r5);
-
-    for( int i = 0; i < 5; i++)
-        cout << h.items[i].id << " " << endl;
+    double avgwaitingtime = stringToInt(args[2]);
+	optimalNumber(args[1], avgwaitingtime);
 }
