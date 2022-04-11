@@ -7,7 +7,10 @@
 * Assignment: 3
 * Description: Computer class source code file
 */
-computer::computer() {}
+computer::computer() {
+    isWorking = false;
+    processingTime = 0;
+}
 computer::computer( int number) {
     compNumber = number;
     isWorking = false;

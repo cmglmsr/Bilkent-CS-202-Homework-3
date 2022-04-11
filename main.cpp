@@ -53,7 +53,7 @@ void simulator( string fileName, int numberOfComputers, double& avgWaitingTime) 
     
     while( !completed) {
         for( int i = 0; i < numberOfComputers; i++) {
-            if( computers[i].isWorking) {
+            if( computers[i].processingTime != 0) {
                 computers[i].processingTime--;
             }
         }
@@ -113,22 +113,26 @@ void show(string fileName, int numberOfComputers) {
         f >> id; f >> priority; f >> sentTime; f >> processTime;
         request newRequest( id, priority, sentTime, processTime);
         requests[currentRequest] = newRequest;
+
+        //cout << "request id: " << requests[currentRequest].id << " request prio: " << requests[currentRequest].priority <<
+        //" request sentTime " << requests[currentRequest].sentTime << " request processTime " << requests[currentRequest].processTime << endl; 
+
         currentRequest++;
     }
 
     Heap heap;
-    computer* computers;
     bool completed = false;
     int ms = 0;
     double average = 0;
     int done = 0;
     int waitTime;
+    computer* computers = new computer[ numberOfComputers];
     for( int i = 0; i < numberOfComputers; i++) {
-        computers[i].compNumber = i;
+        computers[i].compNumber = i;        
     }
     while( !completed) {
         for( int i = 0; i < numberOfComputers; i++) {
-            if( computers[i].isWorking) {
+            if( computers[i].processingTime > 0) {  
                 computers[i].processingTime--;
             }
         }
@@ -159,7 +163,7 @@ void show(string fileName, int numberOfComputers) {
             completed = true;
         ms++;
     }
-    cout << endl << "Average waiting time is: " <<  average/numberOfRequests << endl;
+    cout << endl << "Average waiting time: " <<  average/numberOfRequests << endl;
 
     delete[] requests;
 }
