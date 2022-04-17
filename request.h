@@ -6,7 +6,7 @@
 * Assignment: 3
 * Description: Heap class header file
 */
-class request {
+struct request {
     public:
     request();
     request( int tid, int tpriority, int tsentTime, int tprocessTime);
