@@ -140,6 +140,7 @@ void show(string fileName, int numberOfComputers) {
     readRequests( fileName, requests, numberOfRequests);
     
     while( !completed) {
+        cout<< "completed is " << completed << endl;
         // pass over each request in the requests array
         for( int i = 0; i < numberOfRequests; i++) {
             if( requests[i].sentTime == ms) { // insert the request into the heap if it was sent at the current time
@@ -181,6 +182,7 @@ void show(string fileName, int numberOfComputers) {
 
         // the loop is done if we have no more requests to process.
         if( done == numberOfRequests) {
+            cout << "settin completed true " << endl;
             completed = true;
             break;
         }
