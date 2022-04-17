@@ -14,18 +14,17 @@ using namespace std;
 * Description: Computer class source code file
 */
 
-/*
-TO DO:
-* Change convertChar
-* Change if clauses, computer updates can be done in a single loop
-*/
-
 const int MAX_COMPUTERS = 999;
+const long int MAX_DURATION = 999999;
 
 // converts a given char to an integer
 int convertChar(char *word) 
 {   
     long int returnInt = 0;
+
+    if( word == NULL)
+        return -1;
+
     for( ; *word >= '0' & *word <= '9'; word++){
         returnInt = (*word - '0') + returnInt * 10;
     }
@@ -80,7 +79,6 @@ void simulator( string fileName, int numberOfComputers, float& avgWaitingTime) {
     readRequests( fileName, requests, numberOfRequests);
     
     while( !completed) {
-
         // pass over each request in the requests array
         for( int i = 0; i < numberOfRequests; i++) {
             if( requests[i].sentTime == ms) { // insert the request into the heap if it was sent at the current time
@@ -91,7 +89,7 @@ void simulator( string fileName, int numberOfComputers, float& avgWaitingTime) {
             }
         }
 
-        // pass over each computer in the arrayOfComputers array
+        // pass over each computer in the computers array
         for( int i = 0; i < numberOfComputers; i++) {
             if( computers[i].isWorking) {  // decrement the processing time if the computer is working
                 computers[i].processingTime--;
@@ -99,16 +97,23 @@ void simulator( string fileName, int numberOfComputers, float& avgWaitingTime) {
             if( computers[i].processingTime == 0) { // set the computer as not working if processing time is 0
                 computers[i].isWorking = false;
             }
-            if(!heap.heapIsEmpty() & heap.items[0].sentTime <= ms & !computers[i].isWorking) {
-                sum = sum + (float) (ms - heap.items[0].sentTime); // add the waiting time to the sum
-                computers[i].processingTime = heap.items[0].processTime; // assign the highest priority request to the computer
-                computers[i].isWorking = true;
-                done++;
-                heap.heapDelete(heap.items[0]); // delete the assigned request from the heap
+            if( !heap.heapIsEmpty()) {
+                if(!computers[i].isWorking & heap.items[0].sentTime <= ms) {
+                    sum = sum + (float) (ms - heap.items[0].sentTime); // add the waiting time to the sum
+                    computers[i].processingTime = heap.items[0].processTime; // assign the highest priority request to the computer
+                    computers[i].isWorking = true;
+                    done++;
+                    heap.heapDelete(heap.items[0]); // delete the assigned request from the heap
+                }
             }
         }
-        if( done == numberOfRequests)
+
+        // the loop is done if we have no more requests to process.
+        if( done == numberOfRequests) {
             completed = true;
+            break;
+        }
+            
         ms++;
     }
     avgWaitingTime = sum/numberOfRequests; // compute the average waiting time by dividing the sum to the number of requests
@@ -144,7 +149,7 @@ void show(string fileName, int numberOfComputers) {
                 break;
             }
         }
-        // pass over each computer in the arrayOfComputers array
+        // pass over each computer in the computers array
         for( int i = 0; i < numberOfComputers; i++) {
             if( computers[i].isWorking) {  
                 computers[i].processingTime--; // decrement the processing time if the computer is working
@@ -152,27 +157,34 @@ void show(string fileName, int numberOfComputers) {
             if( computers[i].processingTime == 0) {  // set the computer as not working if processing time is 0
                 computers[i].isWorking = false;
             }
-            if(!heap.heapIsEmpty() & heap.items[0].sentTime <= ms & !computers[i].isWorking) {
-                delay = (ms - heap.items[0].sentTime);
-                sum = sum + (float) (ms - heap.items[0].sentTime); // add the waiting time to the sum
-                computers[i].processingTime = heap.items[0].processTime; // assign the highest priority request to the computer
-                computers[i].isWorking = true;
-                // Print
-                cout << "Computer " 
-                << computers[i].compNumber 
-                << " takes request " 
-                << heap.items[0].id 
-                << " at ms " << ms 
-                << " (wait: " 
-                << delay 
-                << " ms)" 
-                << endl;
-                heap.heapDelete(heap.items[0]);
-                done++;
+            if( !heap.heapIsEmpty()) {
+                if(!computers[i].isWorking & heap.items[0].sentTime <= ms) {
+                    delay = (ms - heap.items[0].sentTime);
+                    sum = sum + (float) (ms - heap.items[0].sentTime); // add the waiting time to the sum
+                    computers[i].processingTime = heap.items[0].processTime; // assign the highest priority request to the computer
+                    computers[i].isWorking = true;
+                    // Print
+                    cout << "Computer " 
+                    << computers[i].compNumber 
+                    << " takes request " 
+                    << heap.items[0].id 
+                    << " at ms " << ms 
+                    << " (wait: " 
+                    << delay 
+                    << " ms)" 
+                    << endl;
+                    done++;
+                    heap.heapDelete(heap.items[0]);
+                }
             }
         }
-        if( done == numberOfRequests)
+
+        // the loop is done if we have no more requests to process.
+        if( done == numberOfRequests) {
             completed = true;
+            break;
+        }
+           
         ms++;
     }
     cout << endl << "Average waiting time: " <<  sum/numberOfRequests << endl;
@@ -192,7 +204,7 @@ void initialPrint( int numberOfComputers) {
 
 // optimalNumber method finds the minimum number of computers for the given average time
 int optimalNumber( string filename, float averageTime) {
-    float testDuration = 999;
+    float testDuration = MAX_DURATION;
     if( averageTime <= 0) {
         cout << "Average time cannot be 0 or less, simulation will not proceed." << endl;
         return 0;
