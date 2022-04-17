@@ -71,14 +71,17 @@ void simulator( string fileName, int numberOfComputers, float& avgWaitingTime) {
     Heap heap;  // heap will store the requests
     bool completed = false;
     long int ms = 0;  // ms is the current time in ms (defined as long it because time can go on for long)
-    float sum;  // sum of the waiting times
+    float sum = 0;  // sum of the waiting times
     int done = 0;
-    int numberOfRequests;
+    int numberOfRequests = 0;
 
     request* requests;
     readRequests( fileName, requests, numberOfRequests);
     
-    while( !completed) {
+    for( ; done!=numberOfRequests; ) {
+        if( done == numberOfRequests) {
+            break;
+        }
         // pass over each request in the requests array
         for( int i = 0; i < numberOfRequests; i++) {
             if( requests[i].sentTime == ms) { // insert the request into the heap if it was sent at the current time
@@ -109,11 +112,7 @@ void simulator( string fileName, int numberOfComputers, float& avgWaitingTime) {
         }
 
         // the loop is done if we have no more requests to process.
-        if( done == numberOfRequests) {
-            completed = true;
-            break;
-        }
-            
+        
         ms++;
     }
     avgWaitingTime = sum/numberOfRequests; // compute the average waiting time by dividing the sum to the number of requests
@@ -134,13 +133,15 @@ void show(string fileName, int numberOfComputers) {
     long int ms = 0; // ms is the current time in ms
     float sum = 0; // sum of the waiting times
     int done = 0;
-    long int delay; // delay is the particular wait time for that request
+    long int delay = 0; // delay is the particular wait time for that request
 
     request* requests;
     readRequests( fileName, requests, numberOfRequests);
     
-    while( !completed) {
-        cout<< "completed is " << completed << endl;
+    for( ; done!=numberOfRequests; ) {
+        if( done == numberOfRequests) {
+            break;
+        }
         // pass over each request in the requests array
         for( int i = 0; i < numberOfRequests; i++) {
             if( requests[i].sentTime == ms) { // insert the request into the heap if it was sent at the current time
@@ -181,11 +182,7 @@ void show(string fileName, int numberOfComputers) {
         }
 
         // the loop is done if we have no more requests to process.
-        if( done == numberOfRequests) {
-            cout << "settin completed true " << endl;
-            completed = true;
-            break;
-        }
+        
            
         ms++;
     }
@@ -216,6 +213,15 @@ int optimalNumber( string filename, float averageTime) {
         simulator( filename, computerCount, testDuration);
         computerCount++;
     }
+
+    request* arr;
+    int numberOfRequests = 0;
+    readRequests( filename, arr, numberOfRequests);
+    if( numberOfRequests == 0) {
+        cout << "The input file is empty, simulation will not proceed." << endl;
+        return 0;
+    }
+
     initialPrint( computerCount-1);
     show( filename, computerCount-1);
     return 0;
